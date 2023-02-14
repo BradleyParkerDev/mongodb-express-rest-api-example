@@ -34,7 +34,11 @@ recordRoutes.route('/listings/recordSwipe').post(function (req, res) {
     session_id: req.body.session_id,
     direction: req.body.direction,
   };
-
+  /*
+  if the matches collection doesnt exist, it is created
+  and matchDocument is insereted as an entry on the mongoDb side,
+  a unique identifier 
+  */
   dbConnect
     .collection('matches')
     .insertOne(matchDocument, function (err, result) {
@@ -65,7 +69,7 @@ recordRoutes.route('/listings/updateLike').post(function (req, res) {
           .status(400)
           .send(`Error updating likes on listing with id ${listingQuery.id}!`);
       } else {
-        console.log('1 document updated');
+        res.status(200).send('1 document updated');
       }
     });
 });
@@ -83,7 +87,7 @@ recordRoutes.route('/listings/delete/:id').delete((req, res) => {
           .status(400)
           .send(`Error deleting listing with id ${listingQuery.listing_id}!`);
       } else {
-        console.log('1 document deleted');
+        res.status(200).send('1 document deleted');
       }
     });
 });
